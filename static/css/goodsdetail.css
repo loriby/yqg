@@ -1,0 +1,160 @@
+body {
+    background: #ebeced;
+}
+
+.goods_tit_bar {
+    width: 100%;
+    height: 44px;
+    background: #fff;
+    border-bottom: 1px solid #ebeced;
+}
+
+.goods_back {
+    height: 22px;
+    width: auto;
+    padding: 11px 10px;
+}
+
+.goods_tit {
+    text-align: center;
+    line-height: 44px;
+    color: #333;
+    font-size: 14px;
+}
+
+.goods_share {
+    height: 22px;
+    width: auto;
+    padding: 11px 10px;
+}
+
+.goods_img {
+    background: #fff;
+    padding: 20px 0;
+}
+
+.goods_img img {
+    width: 300px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.goods_module {
+    background: #fff;
+    padding: 1px 10px 10px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.goods_name {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+.goods_name span {
+    padding: 2px 4px;
+    background: #f23030;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 3px;
+    margin-right: 3px;
+}
+
+.goods_info {
+    font-size: 12px;
+    color: #666;
+    margin-top: 6px;
+}
+
+.goods_price {
+    font-size: 24px;
+    color: #f23030;
+    margin-top: 6px;
+}
+
+.goods_price_symbol {
+    font-size: 18px;
+    font-style: normal;
+    margin-top: 2px;
+}
+
+.goods_price_prompt {
+    display: inline-block;
+    font-size: 12px;
+    color: #999;
+    margin: 8px 0 0 6px;
+}
+
+.goods_coupon {
+    border-left: 1px dotted #ff9950;
+    display: inline-block;
+    width: auto;
+    height: 16px;
+    margin: 8px 0 0 10px;
+}
+
+.goods_coupon_icon {
+    width: 16px;
+    height: 16px;
+    font-size: 12px;
+    text-align: center;
+    line-height: 16px;
+    color: #fff;
+    background: #ff9950;
+    display: inline-block;
+}
+
+.goods_coupon_val {
+    float: left;
+    font-size: 12px;
+    height: 14px;
+    border: 1px solid #ff9950;
+    padding: 0 3px;
+    line-height: 14px;
+    display: block;
+}
+
+.goods_sales {
+    font-size: 12px;
+    color: #999;
+    margin-top: 6px;
+}
+
+.goods_footer {
+    width: 100%;
+    height: 52px;
+    border-top: 1px solid #f0f0f0;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: #fff;
+}
+
+.goods_index {
+    width: 40%;
+    height: 52px;
+}
+
+.goods_index img {
+    width: 20px;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 6px;
+}
+
+.goods_index p {
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+    margin-top: 3px;
+}
+
+.goods_buy {
+    text-align: center;
+    line-height: 52px;
+    color: #fff;
+    font-size: 14px;
+    color: #fff;
+    background: #f23030;
+}
