@@ -10,20 +10,18 @@
                 </li>
             </ul>
         </div>
-        <form action="http://xriml.com/yqg/login.php?act=register" method="post">
-            <div class="register_msg">
-                <div class="rm_ipt">
-                    <input name="uname" placeholder="请输入用户名" type="text">
-                </div>
-                <div class="rm_ipt">
-                    <input name="upwd" placeholder="请输入密码" type="password">
-                </div>
-                <div class="rm_ipt">
-                    <input name="apwd" placeholder="请确认密码" type="password">
-                </div>
-                <input type="button" name="submit" value="立即注册" class="user_regi_log">
+        <div class="register_msg">
+            <div class="rm_ipt">
+                <input name="this." v-model="uname" placeholder="请输入用户名" type="text">
             </div>
-        </form>
+            <div class="rm_ipt">
+                <input name="upwd" v-model="upwd" placeholder="请输入密码" type="password">
+            </div>
+            <div class="rm_ipt">
+                <input name="apwd" v-model="apwd" placeholder="请确认密码" type="password">
+            </div>
+            <input type="button" name="submit" value="立即注册" class="user_regi_log" @click="subMsg">
+        </div>
         <div class="lw_cooperation">
             <p class="t user_regi_cooper_top" style="">
                 <b style=""></b>
@@ -40,18 +38,94 @@
   </div>
 </template>
 <script>
+    
+
     import Header from '@/components/header.vue';
+    import Axios from 'axios';
+    import Qs from 'qs';
+
 
     export default({
         name:'Register',
         data(){
             return{
                 title:'注册',
-                share:false
+                share:false,
+                uname:'',
+                upwd:'',
+                apwd:'',
+                'address':'',
+                'district':''
             }
         },
         components:{
             'app-header':Header
+        },
+        methods:{
+            subMsg:function(){
+                let promptMsg = '';
+                let propsData = {
+                    'uname':this.uname,
+                    'upwd':this.upwd,
+                    'address':this.address,
+                    'district':this.district
+                };
+
+                if(this.uname == ''){
+                    promptMsg = '用户名不能为空！';
+                }else if(this.upwd == ''){
+                    promptMsg = '密码不能为空！';
+                }else if(this.apwd == ''){
+                    promptMsg = '确认密码框不能为空！';
+                }else if(this.upwd != this.apwd){
+                    promptMsg = '两次密码输入不一致，请重新输入';
+                }
+
+                if(promptMsg != ''){
+                    alert(promptMsg);
+                    return;
+                }
+                let that = this;
+                Axios.post('http://www.xriml.com/yqg/login.php?act=register',Qs.stringify(propsData))
+                    .then(function(res){
+                        that.$router.push({path:'/login'});
+                    })
+                    .catch(function(error){
+                        console.log(error)
+                    })
+
+            }
+        },
+        created(){
+            var mapObj = new AMap.Map('iCenter');
+            mapObj.plugin('AMap.Geolocation', function () {
+                var geolocation = new AMap.Geolocation({
+                    enableHighAccuracy: true,//是否使用高精度定位，默认:true
+                    timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+                    maximumAge: 0,           //定位结果缓存0毫秒，默认：0
+                    convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+                    showButton: true,        //显示定位按钮，默认：true
+                    buttonPosition: 'LB',    //定位按钮停靠位置，默认：'LB'，左下角
+                    buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                    showMarker: true,        //定位成功后在定位到的位置显示点标记，默认：true
+                    showCircle: true,        //定位成功后用圆圈表示定位精度范围，默认：true
+                    panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+                    zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                });
+                mapObj.addControl(geolocation);
+                geolocation.getCurrentPosition();
+                AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+                AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+            });
+
+            function onComplete(r){
+                this.district = r.addressComponent.district;
+                this.address = r.formattedAddress;
+            }
+
+            function onError(e){
+                console.log(e)
+            }
         }
     })
 </script>

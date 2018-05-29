@@ -9,6 +9,7 @@ import User from '@/components/user';
 import Login from '@/components/login';
 import Register from '@/components/register';
 import Prompt from '@/components/prompt';
+import Profile from '@/components/profile';
 
 Vue.use(Router);
 
@@ -43,6 +44,11 @@ export default new Router({
             path: '/prompt',
             name: 'Prompt',
             component: Prompt
+        },
+        {
+            path: '/profile',
+            name: 'Profile',
+            component: Profile
         }
     ]
 })

@@ -19,23 +19,25 @@
         <img class="clips_coupons" src="themes/zhue/images/price_right1.png" alt="">
     </div>
     <div class="vc_lj">
-        <div>
-            <img src="../../static/images/user_username.png" alt="">
-            <h5 class="user_point"></h5>        
-            <p>账户管理</p>
-            <img class="clips_coupons" src="../../static/images/price_right1.png" alt="">
-            <span class="clips_wxps">完成实名认证奖励两百积分</span>      
-        </div>
+        <router-link to="/profile">
+            <div>
+                <img src="../../static/images/user_username.png" alt="">
+                <h5 class="user_point"></h5>        
+                <p>账户管理</p>
+                <img class="clips_coupons" src="../../static/images/price_right1.png" alt="">
+                <span class="clips_wxps">完成实名认证奖励两百积分</span>      
+            </div>
+        </router-link>
         <div>
             <img src="../../static/images/user_advice.png" alt="">
             <p>意见反馈</p>
             <img class="clips_coupons" src="../../static/images/price_right1.png" alt="">
         </div>
-        <router-link to="/login">
-            <div class="user_exit">
+        <!-- <router-link to="/login"> -->
+            <div class="user_exit" @click="exit">
                 退出
             </div>
-        </router-link>
+        <!-- </router-link> -->
     </div>
     <app-footer></app-footer>
   </div>
@@ -157,6 +159,7 @@
 
 <script>
     import Footer from "@/components/footer.vue";
+    import Axios from 'axios';
 
     export default({
         name:'User',
@@ -168,6 +171,32 @@
         },
         components:{
             'app-footer':Footer
+        },
+        mounted(){
+            Axios.post('http://www.xriml.com/yqg/user.php')
+                .then(function(res){
+                    console.log(res)
+                })
+                .catch(function(err){
+                    console.log(err)
+                })
+        },
+        methods:{
+            exit:function(){
+                let that = this;
+                Axios.post('http://www.xriml.com/yqg/login.php?act=exit')
+                    .then(function(res){
+                        if(res.data.status === 4){
+                            alert(res.data.msg);
+                            that.$router.push({path:'/'});
+                        }else{
+                            console.log(1)
+                        }
+                    })
+                    .catch(function(err){
+                        console.log(err)
+                    })
+            }
         }
     })
 </script>

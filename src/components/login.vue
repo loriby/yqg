@@ -14,11 +14,11 @@
       <form action="">
           <div class="lw_box">
               <div class="login_ipt">
-                  <input placeholder="请输入用户名/手机号" type="text">
+                  <input placeholder="请输入用户名/手机号" type="text" v-model="uname">
                   <img src="../../static/images/user_user.png" alt="">
               </div>
               <div class="login_ipt">
-                  <input placeholder="请输入密码" type="password"/>
+                  <input placeholder="请输入密码" type="password" v-model="upwd"/>
                   <img src="../../static/images/user_pwd.png" alt="">
               </div>
               <div class="login_forget">
@@ -30,7 +30,7 @@
                   <p class="login_find">忘记密码</p>
                   <p class="clear"></p>
               </div>
-              <input type="submit" name="submit" value="立即登录" class="user_regi_log">
+              <input type="button" @click="login" name="submit" value="立即登录" class="user_regi_log">
           </div>
       </form>
       <div class="lw_cooperation">
@@ -49,17 +49,49 @@
 </template>
 <script>
     import Header from '@/components/header.vue';
+    import Axios from 'axios';
+    import Qs from 'qs';
 
     export default({
         name:'Login',
         data(){
             return{
                 title:'登录',
-                share:false
+                share:false,
+                uname:'',
+                upwd:''
             }
         },
         components:{
             'app-header':Header
+        },
+        methods:{
+            login:function(){
+                let postData = {
+                    'uname':this.uname,
+                    'upwd':this.upwd
+                }
+                
+                let that = this;
+
+                Axios.post('http://www.xriml.com/yqg/login.php?act=login',Qs.stringify(postData))
+                    .then(function(res){
+                        if(res.data.status == 1){
+                            that.uname = '';
+                            that.upwd = '';
+                            alert(res.data.msg)
+                        }else if(res.data.status == 2){
+                            that.upwd = '';
+                            alert(res.data.msg)
+                        }else if(res.data.status == 3){
+                            alert(res.data.msg)
+                            that.$router.push({path:'/'});
+                        }
+                    })
+                    .catch(function(err){
+                        console.log(err)
+                    })
+            }
         }
     })
 </script>
