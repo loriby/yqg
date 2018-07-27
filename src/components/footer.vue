@@ -7,8 +7,10 @@
           </router-link>
       </li>
       <li class="dflex">
-          <img src="../../static/images/shopping_cart.png" alt="">
-          <p>购物车</p>
+          <router-link to="/cart">
+            <img src="../../static/images/shopping_cart.png" alt="">
+            <p>购物车</p>
+          </router-link>
       </li>
       <li class="dflex">
           <router-link to="/user">
@@ -19,9 +21,9 @@
   </ul>
 </template>
 <script>
-    export default{
-        name:'Footer'
-    }
+export default{
+  name: 'Footer',
+};
 </script>
 <style>
     .footer{

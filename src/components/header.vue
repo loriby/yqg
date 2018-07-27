@@ -6,31 +6,31 @@
     </div>
 </template>
 <script>
-    export default({
-        name:'Header',
-        data(){
-            return{
-                title:'',
-                share:false
-            }
-        },
-        methods:{
-            back(){
-                var reg=/localhost/g;
-                const localUrl = document.referrer;
+export default({
+  name: 'Header',
+  data() {
+    return {
+      title: '',
+      share: false,
+    };
+  },
+  methods: {
+    back() {
+      const reg = /localhost/g;
+      const localUrl = document.referrer;
 
-                if(reg.test(localUrl)){
-                    this.$router.go(-1);
-                }else{
-                    window.location.href="/";
-                }
-            }
-        },
-        mounted(){
-            this.title = this.$parent.title;
-            this.share = this.$parent.share;
-        }
-    })
+      if (reg.test(localUrl)) {
+        this.$router.go(-1);
+      } else {
+        window.location.href = '/';
+      }
+    },
+  },
+  mounted() {
+    this.title = this.$parent.title;
+    this.share = this.$parent.share;
+  },
+});
 </script>
 <style>
 .goods_tit_bar {

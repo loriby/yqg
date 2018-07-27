@@ -2,13 +2,15 @@
   <div class="goods_wrap">
     <app-header></app-header>
     <div class="swiper-container">
-        <div class="swiper-wrapper">
-            <img class="swiper-slide" :src="goodsImgs" alt=""/>
-        </div>
+        <ul class="swiper-wrapper">
+            <li class="swiper-slide" >
+                <img :src="goodsImgs" alt="">
+            </li>
+        </ul>
         <div class="swiper-pagination"></div>
     </div>
     <div class="goods_module">
-        <p class="goods_name"><span>{{shopType}}</span>{{goodsMsg.title}}</p>
+        <p class="goodsdetail__name"><span>{{shopType}}</span>{{goodsMsg.title}}</p>
         <p class="goods_info">{{goodsMsg.intro}}</p>
         <div class="goods_price">
             <i class="goods_price_symbol fl">￥</i>
@@ -21,7 +23,8 @@
             </div>
             <p class="clear"></p>
         </div>
-        <div class="goods_sales">销量：<span>{{goodsMsg.likes}}</span></div>
+        <div class="goods_sales">销量：<span>{{goodsMsg.volume}}</span></div>
+        <p class="clear"></p>
     </div>
     <div class="goods_footer dbox">
         <div class="goods_index">
@@ -30,74 +33,94 @@
                 <p>首页</p>
             </router-link>
         </div>
+        <div class="goods_index" @click="addCart()">
+            <img src="../../static/images/shopping_cart.png" alt="">
+            <p>加入购物车</p>
+        </div>
         <div @click="goBuy(goodsMsg.click_url)" class="goods_buy dflex">立即领券</div>
     </div>
   </div>
 </template>
-<script>
-    import SwiperStyle from '../../static/css/swiper-3.2.7.min.css';  
-    import Jquery from '../../static/js/jquery-1.8.0';
-    import Swiper from '../../static/js/swiper-3.2.7.jquery.min';
-    import Header from '@/components/header.vue';
-    var goodsData = [];
-
-    $.ajax({
-        url:'../../static/json/json.json',
-        dataType:'json',
-        type:'get',
-        async:false,
-        success:function(res){
-            goodsData = res;
-        }
-    })
-    window.onload = function(){
-        var mySwiper = new Swiper('.swiper-container', {
-                        autoplay:2000,
-                        direction:"horizontal",
-                        loop:true,
-                        pagination:".swiper-pagination",
-                        paginationType : 'progress',
-                    })
-    }
-    export default{
-        name:'GoodsDetail',
-        data(){
-            return{
-                goodsMsg:'',
-                goodsImgs:'',
-                shopType:'天猫',
-                title:'商品详情',
-                share:true
-            }
-        },
-        mounted(){
-            const localUrl = document.referrer;
-            const goodsId = this.$route.params.id;
-            for(let i = 0; i < goodsData.length; i++){
-                 if(goodsData[i].id == goodsId){
-                    this.goodsMsg = goodsData[i];
-                    this.goodsImgs = goodsData[i].pic_url;
-
-                    if(goodsData[i].shop_type == 'C'){
-                        this.shopType = '淘宝';
-                    }
-                 }
-            };
-        },
-        methods:{
-            goBuy(url){
-                location.href = url;
-            }
-        },
-        created(){
-            document.title = '商品详情页';
-        },
-        components:{
-            'app-header':Header
-        }
-    }
-</script>
 <style>
+    @import "../../static/css/swiper-3.2.7.min.css";
+</style>
+
+<script>
+import Axios from 'axios';
+import Header from '@/components/header';
+import Swiper from 'swiper';
+import Qs from 'qs';
+
+export default{
+  name: 'GoodsDetail',
+  data() {
+    return {
+      goodsMsg: '',
+      goodsImgs: '',
+      shopType: '天猫',
+      title: '商品详情',
+      share: true,
+      goodsId: this.$route.params.id
+    };
+  },
+  mounted() {
+    const that = this;
+    const goodsId = that.goodsId;
+
+    Axios.post('http://xriml.com/yqg/goods.php?id='+goodsId)
+      .then((res) => {
+        const goodsData = res.data.data;
+
+          that.goodsMsg = goodsData;
+          that.goodsImgs = goodsData.pic_url;
+
+          if (goodsData.shop_type === 'C') {
+            that.shopType = '淘宝';
+          }
+      })
+      .catch((err) => {
+        alert(err);
+      });
+    
+    // new Swiper('.swiper-container', {
+    //     autoplay: 1000,
+    //     loop: true,
+    //     scrollbar: '.swiper-pagination',
+    // });
+  },
+  methods: {
+    goBuy: function(url) {
+      location.href = url;
+    },
+    addCart: function () {
+        const that = this;
+        const postData = {
+            gid: that.goodsId,
+            gp: that.goodsMsg.coupon_price
+        };
+
+        Axios.post('http://xriml.com/yqg/cart.php?act=add', Qs.stringify(postData))
+            .then((res) => {
+                if(res.data.status === 'success'){
+                    alert('添加成功！');
+                }else{
+                    alert('添加失败，请重新添加！');
+                }
+            })
+            .catch((err) => {
+                alert('添加失败，请重新添加！');
+            })
+    }
+  },
+  created() {
+    document.title = '商品详情页';
+  },
+  components: {
+    'app-header': Header,
+  },
+};
+</script>
+<style scoped>
 body {
     background: #ebeced;
 }
@@ -119,13 +142,13 @@ body {
     border-top: 1px solid #f0f0f0;
 }
 
-.goods_name {
+.goodsdetail__name {
     margin-top: 10px;
     font-size: 14px;
     color: #333;
 }
 
-.goods_name span {
+.goodsdetail__name span {
     padding: 2px 4px;
     background: #f23030;
     color: #fff;
@@ -206,7 +229,7 @@ body {
 }
 
 .goods_index {
-    width: 40%;
+    width: 20%;
     height: 52px;
 }
 

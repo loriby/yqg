@@ -4,12 +4,9 @@
   </div>
 </template>
 <script>
-import Index from "./components/index";
-import Footer from "./components/footer";
-import Router from "./router";
 
 export default {
-  name: 'App'
+  name: 'App',
 };
 </script>
 

@@ -8,17 +8,17 @@
     </div>
 </template>
 <script>
-    import Header from '@/components/header.vue';
+import Header from '@/components/header';
 
-    export default({
-        name:'Profile',
-        data(){
-            return{
-                title:'个人设置'
-            }
-        },
-        components:{
-            'app-header':Header
-        }
-    })
+export default({
+  name: 'Profile',
+  data() {
+    return {
+      title: '个人设置',
+    };
+  },
+  components: {
+    'app-header': Header,
+  },
+});
 </script>

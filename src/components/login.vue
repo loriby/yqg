@@ -2,7 +2,7 @@
   <div class="login_wrap">
       <app-header ref="one"></app-header>
       <div class="login_box">
-        <div class="user_log_prompt"> 
+        <div class="user_log_prompt">
             <span>猪易网会员可直接登录</span>
             <ul>
                 <li>
@@ -48,52 +48,52 @@
   </div>
 </template>
 <script>
-    import Header from '@/components/header.vue';
-    import Axios from 'axios';
-    import Qs from 'qs';
+import Header from '@/components/header';
+import Axios from 'axios';
+import Qs from 'qs';
 
-    export default({
-        name:'Login',
-        data(){
-            return{
-                title:'登录',
-                share:false,
-                uname:'',
-                upwd:''
-            }
-        },
-        components:{
-            'app-header':Header
-        },
-        methods:{
-            login:function(){
-                let postData = {
-                    'uname':this.uname,
-                    'upwd':this.upwd
-                }
-                
-                let that = this;
+export default({
+  name: 'Login',
+  data() {
+    return {
+      title: '登录',
+      share: false,
+      uname: '',
+      upwd: '',
+    };
+  },
+  components: {
+    'app-header': Header,
+  },
+  methods: {
+    login: function () {
+      const postData = {
+        uname: this.uname,
+        upwd: this.upwd,
+      };
+      const that = this;
 
-                Axios.post('http://www.xriml.com/yqg/login.php?act=login',Qs.stringify(postData))
-                    .then(function(res){
-                        if(res.data.status == 1){
-                            that.uname = '';
-                            that.upwd = '';
-                            alert(res.data.msg)
-                        }else if(res.data.status == 2){
-                            that.upwd = '';
-                            alert(res.data.msg)
-                        }else if(res.data.status == 3){
-                            alert(res.data.msg)
-                            that.$router.push({path:'/'});
-                        }
-                    })
-                    .catch(function(err){
-                        console.log(err)
-                    })
-            }
-        }
-    })
+      Axios.post('http://www.xriml.com/yqg/login.php?act=login', Qs.stringify(postData))
+        .then((res) => {
+          if (res.data.status === 1) {
+            that.uname = '';
+            that.upwd = '';
+            alert(res.data);
+          } else if (res.data.status === 2) {
+            that.upwd = '';
+            alert(res.data.msg);
+          } else if (res.data.status === 3) {
+            alert(res.data.msg);
+            that.$router.push({ path: '/' });
+          }
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    },
+  },
+});
+
 </script>
 <style>
     body{
@@ -142,7 +142,7 @@
     .login_remeber{
         float: left;
         color: #333;
-    } 
+    }
     .login_remeber input{
         width: 14px;
         height: 14px;

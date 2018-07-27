@@ -22,10 +22,10 @@
         <router-link to="/profile">
             <div>
                 <img src="../../static/images/user_username.png" alt="">
-                <h5 class="user_point"></h5>        
+                <h5 class="user_point"></h5>
                 <p>账户管理</p>
                 <img class="clips_coupons" src="../../static/images/price_right1.png" alt="">
-                <span class="clips_wxps">完成实名认证奖励两百积分</span>      
+                <span class="clips_wxps">完成实名认证奖励两百积分</span>
             </div>
         </router-link>
         <div>
@@ -33,11 +33,7 @@
             <p>意见反馈</p>
             <img class="clips_coupons" src="../../static/images/price_right1.png" alt="">
         </div>
-        <!-- <router-link to="/login"> -->
-            <div class="user_exit" @click="exit">
-                退出
-            </div>
-        <!-- </router-link> -->
+        <div class="user_exit" @click="exit">退出</div>
     </div>
     <app-footer></app-footer>
   </div>
@@ -94,7 +90,7 @@
     .my_order img{
         float: left;
         height: auto;
-        width: 20px;    
+        width: 20px;
         padding: 12px 14px 9px 8px;
     }
     .my_order img.clips_coupons{
@@ -124,7 +120,7 @@
     .vc_lj div img:nth-child(1){
         float: left;
         height: auto;
-        width: 20px;    
+        width: 20px;
         height: auto;
         margin-top: 10px;
         padding: 0 10px;
@@ -158,45 +154,49 @@
 </style>
 
 <script>
-    import Footer from "@/components/footer.vue";
-    import Axios from 'axios';
+import Footer from '@/components/footer';
+import Axios from 'axios';
 
-    export default({
-        name:'User',
-        data(){
-            return{
-                title:'我的',
-                share:false
-            }
-        },
-        components:{
-            'app-footer':Footer
-        },
-        mounted(){
-            Axios.post('http://www.xriml.com/yqg/user.php')
-                .then(function(res){
-                    console.log(res)
-                })
-                .catch(function(err){
-                    console.log(err)
-                })
-        },
-        methods:{
-            exit:function(){
-                let that = this;
-                Axios.post('http://www.xriml.com/yqg/login.php?act=exit')
-                    .then(function(res){
-                        if(res.data.status === 4){
-                            alert(res.data.msg);
-                            that.$router.push({path:'/'});
-                        }else{
-                            console.log(1)
-                        }
-                    })
-                    .catch(function(err){
-                        console.log(err)
-                    })
-            }
-        }
-    })
+export default({
+  name: 'User',
+  data() {
+    return {
+      title: '我的',
+      share: false,
+      usermsg: '',
+    };
+  },
+  components: {
+    'app-footer': Footer,
+  },
+  mounted() {
+    const that = this;
+
+    Axios.post('http://www.xriml.com/yqg/user.php')
+      .then((res) => {
+        that.usermsg = res;
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  },
+  methods: {
+    exit: function() {
+      const that = this;
+      Axios.post('http://www.xriml.com/yqg/login.php?act=exit')
+        .then((res) => {
+          if (res.data.status === 4) {
+            console.log(res.data);
+            //that.$router.push({ path:'/login' });
+          } else {
+            alert('error');
+          }
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    },
+  },
+});
+
 </script>

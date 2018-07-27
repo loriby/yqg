@@ -2,32 +2,6 @@ body {
     background: #ebeced;
 }
 
-.goods_tit_bar {
-    width: 100%;
-    height: 44px;
-    background: #fff;
-    border-bottom: 1px solid #ebeced;
-}
-
-.goods_back {
-    height: 22px;
-    width: auto;
-    padding: 11px 10px;
-}
-
-.goods_tit {
-    text-align: center;
-    line-height: 44px;
-    color: #333;
-    font-size: 14px;
-}
-
-.goods_share {
-    height: 22px;
-    width: auto;
-    padding: 11px 10px;
-}
-
 .goods_img {
     background: #fff;
     padding: 20px 0;
@@ -45,13 +19,13 @@ body {
     border-top: 1px solid #f0f0f0;
 }
 
-.goods_name {
+.goodsdetail__name {
     margin-top: 10px;
     font-size: 14px;
     color: #333;
 }
 
-.goods_name span {
+.goodsdetail__name span {
     padding: 2px 4px;
     background: #f23030;
     color: #fff;
